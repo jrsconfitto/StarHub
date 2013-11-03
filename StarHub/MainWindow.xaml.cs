@@ -1,6 +1,4 @@
-﻿using ReactiveUI;
-using ReactiveUI.Xaml;
-using StarHub.ViewModels;
+﻿using StarHub.ViewModels;
 
 using System;
 using System.Collections.Generic;
@@ -22,31 +20,15 @@ namespace StarHub
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window,  IViewFor<MainViewModel>
+    public partial class MainWindow : Window
     {
+        public AppBootstrapper AppBootstrapper { get; protected set; }
         public MainWindow()
         {
             InitializeComponent();
 
-            // Initialize the VM
-            ViewModel = new MainViewModel();
-
-            // Bind things together
-            this.OneWayBind(ViewModel, vm => vm.UserName, view => view.UserName.Content);
-        }
-
-        public MainViewModel ViewModel
-        {
-            get { return (MainViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty =
-           DependencyProperty.Register("ViewModel", typeof(MainViewModel), typeof(MainWindow));
-
-        object IViewFor.ViewModel
-        {
-            get { return ViewModel; }
-            set { ViewModel = (MainViewModel)value; }
+            AppBootstrapper = new AppBootstrapper();
+            DataContext = AppBootstrapper;
         }
     }
 }
