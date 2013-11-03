@@ -6,10 +6,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label Name="UserName"
+               Grid.Row="0" Grid.Column="1" />
+
             <Button Name="LogIn"
-                    Content="log in" />
-            <Label Name="UserName" />
-        </StackPanel>
+                Grid.Row="0" Grid.Column="2"
+                Content="log in" />
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Label Content="Oops!" />
+        </Grid>
     </Grid>
 </UserControl>
