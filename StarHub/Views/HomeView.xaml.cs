@@ -28,10 +28,11 @@ namespace StarHub.Views
             InitializeComponent();
 
             // Bind UI
-            this.Bind(ViewModel, vm => vm.UserName, view => view.UserName.Content);
+            this.OneWayBind(ViewModel, vm => vm.UserName, view => view.UserName.Content);
+            this.OneWayBind(ViewModel, vm => vm.Stars, view => view.Stars.ItemsSource);
 
-            // Bind commands
-            this.BindCommand(ViewModel, vm => vm.LogIn);
+            //// Bind commands
+            //this.BindCommand(ViewModel, vm => vm.LogIn);
         }
 
         public HomeViewModel ViewModel {

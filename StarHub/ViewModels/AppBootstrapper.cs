@@ -7,9 +7,11 @@ using StarHub.Views;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,14 +40,12 @@ namespace StarHub.ViewModels
     {
         public IRoutingState Router { get; private set; }
 
-        private GitHubClient ghClient;
+        // ViewModels in use
+        private HomeViewModel HomeVM;
+        private LogInViewModel LogInVM;
 
-        //private string _UserName;
-        //public string UserName
-        //{
-        //    get { return _UserName; }
-        //    set { this.RaiseAndSetIfChanged(ref _UserName, value); }
-        //}
+        private IConnection Conn;
+        private IGitHubClient GHClient;
 
         public AppBootstrapper(IMutableDependencyResolver dependencyResolver = null, IRoutingState testRouter = null)
         {
@@ -55,55 +55,67 @@ namespace StarHub.ViewModels
             dependencyResolver = dependencyResolver ?? RxApp.MutableResolver;
 
             // Declare the application name for Akavache
-            Akavache.BlobCache.ApplicationName = "StarHub";
+            BlobCache.ApplicationName = "StarHub";
 
             // Bind 
             RegisterParts(dependencyResolver);
 
-            //// TODO: This is a good place to set up any other app 
-            //// startup tasks, like setting the logging level
-            //LogHost.Default.Level = LogLevel.Debug;
+            // TODO: This is a good place to set up any other app 
+            // startup tasks, like setting the logging level
+            LogHost.Default.Level = LogLevel.Debug;
 
-            // Pull the auth token from the enironment
-            var authToken = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBPASSWORD");
-            IConnection conn = new Connection(new ProductHeaderValue("StarHub"))
-            {
-                Credentials = new Credentials(authToken)
-            };
+            // Connect to GitHub
+            ConnectToGitHub();
 
-            // For now, do it here because i don't understand WPF, ReactiveUI, or Octokit! YAYZ!
-            ghClient = new GitHubClient(conn);
+            // Instantiate my view models
+            HomeVM = new HomeViewModel(this, GHClient);
+            //LogInVM = new LogInViewModel(this, GHClient.User);
+
+            //BlobCache.UserAccount.GetObjectAsync<string>("UserName").Subscribe(user =>
+            //    {
+                    
+            //    });
+
+            //// Make sure routing is set up
+            //SetRoutingHome();
+            //SetRoutingLogIn();
 
             // Let's start out at the home page
-            var homeVM = new HomeViewModel(this);
-            var logInVM = new LogInViewModel(this);
-
-            // Route to the log in page if it's clicked
-            homeVM.LogIn.Subscribe(_ =>
-            {
-                Router.Navigate.Execute(logInVM);
-            });
-
-            logInVM.Submit.Subscribe(_ =>
-            {
-                // Save the user name to the cache
-                Akavache.BlobCache.UserAccount.InsertObject<string>("UserName", logInVM.UserName);
-                homeVM.UserName = logInVM.UserName;
-
-                // Route back to home
-                //todo: should this go here?
-                Router.NavigateBack.Execute(null);
-            });
-
-            // Start out at home
-            Router.Navigate.Execute(homeVM);
+            Router.Navigate.Execute(HomeVM);
         }
 
         private void RegisterParts(IMutableDependencyResolver dependencyResolver)
         {
             dependencyResolver.RegisterConstant(this, typeof(IScreen));
-            dependencyResolver.Register(() => new LogInView(), typeof(IViewFor<LogInViewModel>));
             dependencyResolver.Register(() => new HomeView(), typeof(IViewFor<HomeViewModel>));
+            //dependencyResolver.Register(() => new LogInView(), typeof(IViewFor<LogInViewModel>));
         }
+
+        private void ConnectToGitHub()
+        {
+            // Pull the auth token from the enironment
+            var authToken = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBPASSWORD");
+            Conn = new Connection(new ProductHeaderValue("StarHub"))
+            {
+                Credentials = new Credentials(authToken)
+            };
+
+            // For now, do it here because i don't understand WPF, ReactiveUI, or Octokit! YAYZ!
+            GHClient = new GitHubClient(Conn);
+        }
+
+        //private void SetRoutingHome()
+        //{
+        //    //// Route to the log in page if it's clicked
+        //    //HomeVM.LogIn.Subscribe(_ =>
+        //    //{
+        //    //    Router.Navigate.Execute(LogInVM);
+        //    //});
+        //}
+
+        //private void SetRoutingLogIn()
+        //{
+        //    LogInVM.Submit.Subscribe(_ => Router.NavigateBack.Execute(null));
+        //}
     }
 }

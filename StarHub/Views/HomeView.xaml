@@ -5,29 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="StarTileTemplate">
+            <StackPanel>
+                <Label Name="Owner"
+                       Content="{Binding Owner}" />
+                <Label Name="Name"
+                       Content="{Binding Name}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="80" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <Label Name="UserName"
-               Grid.Row="0" Grid.Column="1" />
-
-            <Button Name="LogIn"
-                Grid.Row="0" Grid.Column="2"
-                Content="log in" />
+            <Label Name="UserName" />
         </Grid>
 
         <Grid Grid.Row="1">
-            <Label Content="Oops!" />
+            <ItemsControl Name="Stars"
+                          ItemTemplate="{DynamicResource ResourceKey=StarTileTemplate}" />
         </Grid>
     </Grid>
 </UserControl>

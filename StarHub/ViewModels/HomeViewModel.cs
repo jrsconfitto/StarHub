@@ -1,8 +1,11 @@
-﻿using ReactiveUI;
+﻿using Akavache;
+using Octokit;
+using ReactiveUI;
 using StarHub.Views;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,23 +20,90 @@ namespace StarHub.ViewModels
             get { return "home"; }
         }
 
-        private const string AnonymousUser = "not logged in!";
-        private string _UserName = AnonymousUser;
+        private IStarredClient SClient;
+
+        private string UnknownUser = "Friend";
+        private string _UserName;
         public string UserName
         {
             get { return _UserName; }
             set { this.RaiseAndSetIfChanged(ref _UserName, value); }
         }
 
+        public ReactiveList<StarTileViewModel> Stars;
+
         public ReactiveCommand LogIn;
 
-        public HomeViewModel(IScreen host)
+        public HomeViewModel(IScreen host, IGitHubClient GHClient)
         {
             HostScreen = host;
 
+            try
+            {
+                if (GHClient.Connection.Credentials.Login != null)
+                {
+                    UserName = GHClient.Connection.Credentials.Login;
+                }
+                else
+                {
+                    UserName = UnknownUser;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print(ex.Message);
+                UserName = UnknownUser;
+            }
+
             // Log in is necessary if the anonymous user text is the current user name
-            var logInNecessary = this.WhenAny(x => x.UserName, x => x.Value == AnonymousUser);
-            LogIn = new ReactiveCommand(logInNecessary);
+            LogIn = new ReactiveCommand();
+
+            SClient = GHClient.Activity.Starring;
+            var starredRepos = SClient.GetAllForCurrent().Result
+                .Select(star => new StarTileViewModel(star)).ToArray();
+
+            Stars = new ReactiveList<StarTileViewModel>(starredRepos);
+
+            //todo: once i get this working we can use actual log ins
+            //IObservable<User> user = BlobCache.UserAccount.GetOrCreateObject<User>("MyUser", () =>
+            //{
+            //    return null;
+            //});
+
+            //user.Subscribe(u =>
+            // {
+            //     if (u == null)
+            //     {
+            //         UserName = "Anonymous";
+            //     }
+            //     else
+            //     {
+            //         UserName = u.Login;
+            //     }
+            // });
+        }
+    }
+
+    public class StarTileViewModel : ReactiveObject
+    {
+        private string _Owner;
+        public string Owner
+        {
+            get { return _Owner; }
+            set { this.RaiseAndSetIfChanged(ref _Owner, value); }
+        }
+
+        private string _Name;
+        public string Name
+        {
+            get { return _Name; }
+            set { this.RaiseAndSetIfChanged(ref _Name, value); }
+        }
+
+        public StarTileViewModel(Repository starredRepo)
+        {
+            Owner = starredRepo.Owner.Login;
+            Name = starredRepo.Name;
         }
     }
 }
