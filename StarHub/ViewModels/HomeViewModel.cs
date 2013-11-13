@@ -30,7 +30,7 @@ namespace StarHub.ViewModels
             set { this.RaiseAndSetIfChanged(ref _UserName, value); }
         }
 
-        public ReactiveList<StarTileViewModel> Stars;
+        public ReactiveList<StarRowViewModel> Stars;
 
         public ReactiveCommand LogIn;
 
@@ -60,9 +60,9 @@ namespace StarHub.ViewModels
 
             SClient = GHClient.Activity.Starring;
             var starredRepos = SClient.GetAllForCurrent().Result
-                .Select(star => new StarTileViewModel(star)).ToArray();
+                .Select(star => new StarRowViewModel(star)).ToArray();
 
-            Stars = new ReactiveList<StarTileViewModel>(starredRepos);
+            Stars = new ReactiveList<StarRowViewModel>(starredRepos);
 
             //todo: once i get this working we can use actual log ins
             //IObservable<User> user = BlobCache.UserAccount.GetOrCreateObject<User>("MyUser", () =>
@@ -81,29 +81,6 @@ namespace StarHub.ViewModels
             //         UserName = u.Login;
             //     }
             // });
-        }
-    }
-
-    public class StarTileViewModel : ReactiveObject
-    {
-        private string _Owner;
-        public string Owner
-        {
-            get { return _Owner; }
-            set { this.RaiseAndSetIfChanged(ref _Owner, value); }
-        }
-
-        private string _Name;
-        public string Name
-        {
-            get { return _Name; }
-            set { this.RaiseAndSetIfChanged(ref _Name, value); }
-        }
-
-        public StarTileViewModel(Repository starredRepo)
-        {
-            Owner = starredRepo.Owner.Login;
-            Name = starredRepo.Name;
         }
     }
 }

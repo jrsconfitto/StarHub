@@ -42,7 +42,7 @@ namespace StarHub.ViewModels
 
         // ViewModels in use
         private HomeViewModel HomeVM;
-        private LogInViewModel LogInVM;
+        //private LogInViewModel LogInVM;
 
         private IConnection Conn;
         private IGitHubClient GHClient;
@@ -88,6 +88,7 @@ namespace StarHub.ViewModels
         {
             dependencyResolver.RegisterConstant(this, typeof(IScreen));
             dependencyResolver.Register(() => new HomeView(), typeof(IViewFor<HomeViewModel>));
+            dependencyResolver.Register(() => new StarRowView(), typeof(IViewFor<StarRowViewModel>));
             //dependencyResolver.Register(() => new LogInView(), typeof(IViewFor<LogInViewModel>));
         }
 

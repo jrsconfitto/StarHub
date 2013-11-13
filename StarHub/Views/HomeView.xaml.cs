@@ -29,7 +29,7 @@ namespace StarHub.Views
 
             // Bind UI
             this.OneWayBind(ViewModel, vm => vm.UserName, view => view.UserName.Content);
-            this.OneWayBind(ViewModel, vm => vm.Stars, view => view.Stars.ItemsSource);
+            this.OneWayBind(ViewModel, vm => vm.Stars, view => view.StarsListView.ItemsSource);
 
             //// Bind commands
             //this.BindCommand(ViewModel, vm => vm.LogIn);
