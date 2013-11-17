@@ -38,31 +38,42 @@ namespace StarHub.ViewModels
         {
             HostScreen = host;
 
-            try
+            // Default to the normal (read: "tacky") user name
+            if (GHClient.Connection.Credentials.Login == null)
             {
-                if (GHClient.Connection.Credentials.Login != null)
-                {
-                    UserName = GHClient.Connection.Credentials.Login;
-                }
-                else
-                {
-                    UserName = UnknownUser;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Print(ex.Message);
                 UserName = UnknownUser;
             }
 
+            //try
+            //{
+            //    var creds = GHClient.Connection.Credentials;
+            //    Debug.Print("Current user: {0}", creds.Login.ToString());
+
+            //    if (GHClient.Connection.Credentials.Login != null)
+            //    {
+            //        UserName = GHClient.Connection.Credentials.Login;
+            //    }
+            //    else
+            //    {
+            //        UserName = UnknownUser;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.Print(ex.Message);
+            //    UserName = UnknownUser;
+            //}
+
+            var loggedIn = this.WhenAny(x => x.UserName, x => x.Value == UnknownUser);
+
             // Log in is necessary if the anonymous user text is the current user name
-            LogIn = new ReactiveCommand();
+            LogIn = new ReactiveCommand(loggedIn);
 
-            SClient = GHClient.Activity.Starring;
-            var starredRepos = SClient.GetAllForCurrent().Result
-                .Select(star => new StarRowViewModel(star)).ToArray();
+            //SClient = GHClient.Activity.Starring;
+            //var starredRepos = SClient.GetAllForCurrent().Result
+            //    .Select(star => new StarRowViewModel(star)).ToArray();
 
-            Stars = new ReactiveList<StarRowViewModel>(starredRepos);
+            //Stars = new ReactiveList<StarRowViewModel>(starredRepos);
 
             //todo: once i get this working we can use actual log ins
             //IObservable<User> user = BlobCache.UserAccount.GetOrCreateObject<User>("MyUser", () =>
