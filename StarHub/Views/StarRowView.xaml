@@ -3,16 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" Height="47" Width="399">
 
-    <Grid Background="White">
-        <StackPanel>
-            <Label Name="Owner" Content="WAHT"/>
-            <Label Name="RepoName" Content="Hi!"/>
-            <Button Name="VisitHomepage">
-                Visit Homepage...
-            </Button>
-        </StackPanel>
+    <Grid Background="White" Height="48" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0">
+                <TextBlock Name="RepoName" />
+                <TextBlock Name="Owner" Foreground="DarkGray" />
+        </TextBlock>
+
+        <Button Name="VisitHomepage"
+                Grid.Column="1">
+            Visit Homepage...
+        </Button>
     </Grid>
 </UserControl>

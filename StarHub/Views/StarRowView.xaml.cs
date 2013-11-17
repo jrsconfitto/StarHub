@@ -26,8 +26,8 @@ namespace StarHub.Views
         {
             InitializeComponent();
 
-            this.OneWayBind(ViewModel, vm => vm.Owner, view => view.Owner.Content);
-            this.OneWayBind(ViewModel, vm => vm.RepoName, view => view.RepoName.Content);
+            this.OneWayBind(ViewModel, vm => vm.Owner, view => view.Owner.Text);
+            this.OneWayBind(ViewModel, vm => vm.RepoName, view => view.RepoName.Text);
             this.BindCommand(ViewModel, vm => vm.VisitHomepage);
         }
 
