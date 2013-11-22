@@ -1,6 +1,5 @@
 ﻿using Akavache;
 using Octokit;
-using Octokit.Reactive;
 using ReactiveUI;
 using StarHub.ViewModels;
 using StarHub.Views;
