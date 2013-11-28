@@ -3,18 +3,42 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarHub", "StarHub\StarHub.csproj", "{D67FAF67-A571-4DC5-80F9-F6E285188A1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarHub.Win8", "StarHub\StarHub.Win8.csproj", "{D67FAF67-A571-4DC5-80F9-F6E285188A1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarHub.Core", "StarHub.Core\StarHub.Core.csproj", "{E846F8DE-394F-40ED-B45C-2D650492D8BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM = Debug|ARM
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|ARM = Release|ARM
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Release|x64.ActiveCfg = Release|Any CPU
+		{D67FAF67-A571-4DC5-80F9-F6E285188A1B}.Release|x86.ActiveCfg = Release|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Release|x64.ActiveCfg = Release|Any CPU
+		{E846F8DE-394F-40ED-B45C-2D650492D8BF}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

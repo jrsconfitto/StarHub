@@ -1,5 +1,4 @@
-﻿using Akavache;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,7 +15,6 @@ namespace StarHub
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            BlobCache.ApplicationName = "StarHub";
         }
     }
 }

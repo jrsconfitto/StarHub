@@ -1,7 +1,6 @@
 ﻿using Akavache;
 using Octokit;
 using ReactiveUI;
-using StarHub.Views;
 
 using System;
 using System.Collections.Generic;
@@ -69,11 +68,11 @@ namespace StarHub.ViewModels
             // Log in is necessary if the anonymous user text is the current user name
             LogIn = new ReactiveCommand(loggedIn);
 
-            //SClient = GHClient.Activity.Starring;
-            //var starredRepos = SClient.GetAllForCurrent().Result
-            //    .Select(star => new StarRowViewModel(star)).ToArray();
+            SClient = GHClient.Activity.Starring;
+            var starredRepos = SClient.GetAllForCurrent().Result
+                .Select(star => new StarRowViewModel(star)).ToArray();
 
-            //Stars = new ReactiveList<StarRowViewModel>(starredRepos);
+            Stars = new ReactiveList<StarRowViewModel>(starredRepos);
 
             //todo: once i get this working we can use actual log ins
             //IObservable<User> user = BlobCache.UserAccount.GetOrCreateObject<User>("MyUser", () =>

@@ -65,13 +65,18 @@ namespace StarHub.ViewModels
             LogHost.Default.Level = LogLevel.Debug;
 
             // Connect to GitHub
-            //ConnectToGitHub();
             LoadCredentials().Subscribe(creds =>
                 {
                     Connection conn = new Connection(new ProductHeaderValue("StarHub"));
                     if (creds != null)
                     {
                         conn.Credentials = creds;
+                    }
+                    else
+                    {
+                        // For now, look for a token in the environment while i figure out how to get logins working
+                        var authToken = Environment.GetEnvironmentVariable("OCTOKIT_GITHUBPASSWORD");
+                        conn.Credentials = new Credentials(authToken);
                     }
 
                     GHClient = new GitHubClient(conn);
@@ -88,7 +93,7 @@ namespace StarHub.ViewModels
 
             //    });
 
-            //// Make sure routing is set up
+            // Make sure routing is set up
             //SetRoutingHome();
             //SetRoutingLogIn();
         }
